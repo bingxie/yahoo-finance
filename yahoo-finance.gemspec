@@ -11,7 +11,6 @@ spec = Gem::Specification.new do |s|
   s.summary = "A wrapper to Yahoo! Finance market data (quotes and exchange rates) feed"
   s.files = ["lib/yahoo-finance.rb", "lib/yahoo-finance/version.rb", "lib/yahoo-finance/finance-utils.rb"]
   s.require_path = "lib"
-  s.has_rdoc = false
   s.extra_rdoc_files = ["README.md", "HISTORY"]
   s.add_runtime_dependency("fastercsv") if RUBY_VERSION < "1.9"
   s.add_dependency 'json'
