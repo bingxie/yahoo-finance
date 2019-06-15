@@ -213,12 +213,12 @@ module YahooFinance
 
     def read_quotes(symb_str, cols)
       columns = cols.map { |col| COLUMNS[col][0] }.join('').to_s
-      conn = open("https://download.finance.yahoo.com/d/quotes.csv?s=#{URI.escape(symb_str)}&f=#{columns}")
+      conn = open("https://download.finance.yahoo.com/d/quotes.csv?s=#{URI.escape(symb_str)}&f=#{columns}", 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36')
       CSV.parse(conn.read, headers: cols)
     end
 
     def read_historical(symbol, url)
-      doc = Nokogiri::HTML(open(url))
+      doc = Nokogiri::HTML(open(url, 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'))
       rows = doc.xpath('//table')[0].css('tr')
 
       return [] if rows.empty?
@@ -263,12 +263,12 @@ module YahooFinance
       end
 
       url = "https://ichart.finance.yahoo.com/x?#{params.map { |k, v| "#{k}=#{v}" }.join('&')}"
-      conn = open(url)
+      conn = open(url, 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36')
       CSV.parse(conn.read)
     end
 
     def read_symbols(query)
-      conn = open("http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=#{query}&region=US&lang=en-US&callback=YAHOO.Finance.SymbolSuggest.ssCallback")
+      conn = open("http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=#{query}&region=US&lang=en-US&callback=YAHOO.Finance.SymbolSuggest.ssCallback",'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36')
       result = conn.read
       result.sub!('YAHOO.Finance.SymbolSuggest.ssCallback(', '').chomp!(');')
       json_result = JSON.parse(result)
